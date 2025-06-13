@@ -8,7 +8,7 @@ st.title("Additional_data")
 # Check if file exists
 
 # Read the Excel file
-Preview,Alldata,Datasummary = st.tabs("Preview","Quick Summary","Data Summary")
+Preview,Alldata,Datasummary = st.tabs(["Preview","Quick Summary","Data Summary"])
 with Preview:
   excel_file_path = 'All_DataFrames.xlsx'
   xls = pd.ExcelFile(excel_file_path)
