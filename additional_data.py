@@ -32,7 +32,7 @@ with Alldata:
   #st.success(f"Showing data from '{sheet}'")
  
   # Display DataFrame
-  st.dataframe(xls, use_container_width=True)
+  st.dataframe(df, use_container_width=True)
   
 with Datasummary:
   excel_file_path = 'Data_Summaries.xlsx'
