@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
 
-st.set_page_config(page_title="Additional Data Analysis", layout="centered")
+st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 
-st.title("Additional_data")
+st.sidebar.title("Additional_data")
 
-# Check if file exists
 
 # Read the Excel file
 Preview,Alldata,Datasummary = st.tabs(["Preview","Quick Summary","Data Summary"])
