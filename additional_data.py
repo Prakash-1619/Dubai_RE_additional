@@ -28,7 +28,7 @@ with Alldata:
   #sheet = st.selectbox("Select sheet", sheet_names)
 
   # Read selected sheet
-  #df = pd.read_excel(excel_file_path, sheet_name=sheet)
+  df = pd.read_excel(excel_file_path, sheet_name=0)
   #st.success(f"Showing data from '{sheet}'")
  
   # Display DataFrame
