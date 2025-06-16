@@ -46,7 +46,7 @@ elif main_tab == "Charts":
 
     sheet = st.sidebar.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
     df = pd.read_excel(excel_file_path, sheet_name=sheet)
-    if df == 'Avg_Construction_Material_Price':
+    if sheet == 'Avg_Construction_Material_Price':
         df.rename({'yearen':'year'})
     else:
         df
