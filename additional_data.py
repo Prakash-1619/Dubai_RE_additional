@@ -72,7 +72,7 @@ elif main_tab == "📈 Chart Visualization":
         else:
             id = ['id','i_d','year']
             category_col = st.sidebar.selectbox("Select Category Column (X-Axis)", categorical_columns, key="bar_x")
-            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)",  [col for col in numeric_columns if col not in id], key="bar_y")
+            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)",  [col for col in numeric_columns if col not in id])#, key="bar_y")
 
             fig = px.bar(
                 df.dropna(subset=["year", value_col, category_col]),
