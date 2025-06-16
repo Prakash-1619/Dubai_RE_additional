@@ -58,17 +58,17 @@ elif main_tab == "Charts":
     categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
     numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
-    # Ensure 'Year' column is present
-    if "Year" not in df.columns:
+    # Ensure 'year' column is present
+    if "year" not in df.columns:
         st.error("❌ 'Year' column not found in the dataset.")
     else:
         if plot_type == "Line":
-            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "Year"])
+            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year"])
             category_col = st.selectbox("Select Category Column (Legend)", categorical_columns)
 
             fig = px.line(
                 df,
-                x="Year",
+                x="year",
                 y=value_col,
                 color=category_col,
                 markers=True,
@@ -77,7 +77,7 @@ elif main_tab == "Charts":
 
         else:  # Bar plot (not grouped)
             category_col = st.selectbox("Select Category Column (X-Axis)", categorical_columns)
-            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "Year"])
+            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year"])
 
             fig = px.bar(
                 df,
