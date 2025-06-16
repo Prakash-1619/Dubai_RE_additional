@@ -5,8 +5,6 @@ import plotly.express as px
 st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 st.sidebar.title("📊 Additional Data Explorer")
 
-st.sidebar.title("📁 Navigation")
-
 # Sidebar main tab selection
 main_tab = st.sidebar.radio("Select View", ["Data", "Charts"])
 
@@ -60,8 +58,10 @@ elif main_tab == "Charts":
         st.error("❌ 'year' column not found in the dataset.")
     else:
         if plot_type == "Line":
-            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year"], key="line_y")
-            category_col = st.sidebar.selectbox("Select Category Column (Legend)", categorical_columns, key="line_legend")
+            id = ['id',i_d']
+            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year" | col not in id], key="line_y")
+            category_col = st.sidebar.selectbox("Select Category Column (Legend)", categorical_columns , key="line_legend")
+             df['year'] = df.groupby(['year',category_col])[value].mean()
 
             fig = px.line(
                 df.dropna(subset=["year", value_col, category_col]),
@@ -73,7 +73,7 @@ elif main_tab == "Charts":
             )
         else:
             category_col = st.sidebar.selectbox("Select Category Column (X-Axis)", categorical_columns, key="bar_x")
-            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year"], key="bar_y")
+            value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year" | col not in id], key="bar_y")
 
             fig = px.bar(
                 df.dropna(subset=["year", value_col, category_col]),
