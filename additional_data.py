@@ -61,7 +61,7 @@ elif main_tab == "Charts":
             id = ['id','i_d']
             value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "year" | col not in id], key="line_y")
             category_col = st.sidebar.selectbox("Select Category Column (Legend)", categorical_columns , key="line_legend")
-             df['year'] = df.groupby(['year',category_col])[value].mean()
+            df['year'] = df.groupby(['year',category_col])[value].mean()
 
             fig = px.line(
                 df.dropna(subset=["year", value_col, category_col]),
