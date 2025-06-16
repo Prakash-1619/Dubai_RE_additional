@@ -42,7 +42,7 @@ if main_tab == "Data":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "📈 Chart Visualization":
-    sheet = st.sidebar.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
+    sheet = st.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
     df = pd.read_excel(excel_file_path, sheet_name=sheet)
 
     # Identify column types
