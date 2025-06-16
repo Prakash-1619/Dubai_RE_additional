@@ -21,7 +21,7 @@ sheet_names_main = xls_main.sheet_names
 
 # ============== DATA SECTION =================
 if main_tab == "Data":
-    data_sub_tab = st.sidebar.selectbox("Data Views", ["Preview", "Quick Summary", "Data Summary"])
+    data_sub_tab = st.tabs(["Preview", "Quick Summary", "Data Summary"])
 
     if data_sub_tab == "Preview":
         sheet = st.selectbox("Select Data file", sheet_names_main, key="preview_data")
@@ -44,25 +44,47 @@ if main_tab == "Data":
 
 # ============== CHARTS SECTION =================
 elif main_tab == "Charts":
-    st.subheader("📈 Yearly Count by Category")
+    st.subheader("📈 Chart Visualization")
 
     sheet = st.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
     df = pd.read_excel(excel_file_path, sheet_name=sheet)
 
-    st.write("Data Preview")
-    st.dataframe(df.head(), use_container_width=True)
-
-    year_col = st.selectbox("Select Year Column", df.columns, index=0)
-    category_col = st.selectbox("Select Category Column", df.columns, index=1)
-    value_col = st.selectbox("Select Count/Numeric Column", df.columns, index=2)
+    #st.write("Data Preview")
+    #st.dataframe(df.head(), use_container_width=True)
 
     plot_type = st.selectbox("Select Plot Type", ["Line", "Bar"])
 
-    if plot_type == "Line":
-        fig = px.line(df, x=year_col, y=value_col, color=category_col, markers=True,
-                      title="Line Chart: Yearly Count by Category")
-    else:
-        fig = px.bar(df, x=year_col, y=value_col, color=category_col, barmode='group',
-                     title="Bar Chart: Yearly Count by Category")
+    # Define column types
+    categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
+    numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
-    st.plotly_chart(fig, use_container_width=True)
+    # Ensure 'Year' column is present
+    if "Year" not in df.columns:
+        st.error("❌ 'Year' column not found in the dataset.")
+    else:
+        if plot_type == "Line":
+            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "Year"])
+            category_col = st.selectbox("Select Category Column (Legend)", categorical_columns)
+
+            fig = px.line(
+                df,
+                x="Year",
+                y=value_col,
+                color=category_col,
+                markers=True,
+                title=f"Line Chart: {value_col} over Years by {category_col}"
+            )
+
+        else:  # Bar plot (not grouped)
+            category_col = st.selectbox("Select Category Column (X-Axis)", categorical_columns)
+            value_col = st.selectbox("Select Numeric Column (Y-Axis)", [col for col in numeric_columns if col != "Year"])
+
+            fig = px.bar(
+                df,
+                x=category_col,
+                y=value_col,
+                color="Year",  # still colored by year
+                title=f"Bar Chart: {value_col} by {category_col} with Year as Legend"
+            )
+
+        st.plotly_chart(fig, use_container_width=True)
