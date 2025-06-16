@@ -98,7 +98,7 @@ elif main_tab == "📈 Chart Visualization":
                 df.dropna(subset=["year", value_col, category_col]),
                 x=category_col,
                 y=value_col,
-                color=df["year"].astype(str),
+                color="year",
                 title=f"{value_col} by {category_col}"
             )
             fig.update_layout(barmode='overlay')  # Show bars overlaid (not stacked)
