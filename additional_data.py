@@ -56,7 +56,7 @@ elif main_tab == "📈 Chart Visualization":
     if "year" not in df.columns:
         st.error("❌ 'year' column not found in the dataset.")
     else:
-        id_cols = ['id', 'i_d', 'year','quantityar','quantityar']
+        id_cols = ['id', 'i_d', 'year','quantityar','quantityen']
 
         if plot_type == "Line":
             value_col = st.sidebar.selectbox(
