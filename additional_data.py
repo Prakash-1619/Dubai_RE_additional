@@ -6,7 +6,7 @@ st.set_page_config(page_title="Additional Data Analysis", layout="wide")
 st.sidebar.title("📊 Additional Data Explorer")
 
 # Sidebar main tab selection
-main_tab = st.sidebar.radio("Select View", ["Data", "Charts"])
+main_tab = st.sidebar.radio("Select View", ["Data", "📈 Chart Visualization"])
 
 # Excel paths outside
 excel_file_path = 'All_DataFrames.xlsx'
@@ -41,15 +41,9 @@ if main_tab == "Data":
         st.dataframe(df, use_container_width=True)
 
 # ============== CHARTS SECTION =================
-elif main_tab == "Charts":
-    st.subheader("📈 Chart Visualization")
-
-    sheet = st.sidebar.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
-    if sheet == 'Avg_Construction_Material_Price':
-        df = pd.read_excel(excel_file_path, sheet_name=sheet)
-        df.rename(columns = {'yearen':'year'})
-    else:
-        df = pd.read_excel(excel_file_path, sheet_name=sheet)
+elif main_tab == "📈 Chart Visualization":
+    sheet = st.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
+    df = pd.read_excel(excel_file_path, sheet_name=sheet)
 
     # Identify column types
     categorical_columns = df.select_dtypes(include=['object', 'string']).columns.tolist()
@@ -73,9 +67,10 @@ elif main_tab == "Charts":
                 y=value_col,
                 color=category_col,
                 markers=True,
-                title=f"Line Chart: {value_col} over Years by {category_col}"
+                title=f"{value_col} over Years by {category_col}"
             )
         else:
+            id = ['id','i_d','year']
             category_col = st.sidebar.selectbox("Select Category Column (X-Axis)", categorical_columns, key="bar_x")
             value_col = st.sidebar.selectbox("Select Numeric Column (Y-Axis)",  [col for col in numeric_columns if col not in id], key="bar_y")
 
@@ -84,7 +79,7 @@ elif main_tab == "Charts":
                 x=category_col,
                 y=value_col,
                 color=df["year"].astype(str),
-                title=f"Bar Chart: {value_col} by {category_col} with Year as Legend"
+                title=f"{value_col} by {category_col}"
             )
 
         st.plotly_chart(fig, use_container_width=True)
