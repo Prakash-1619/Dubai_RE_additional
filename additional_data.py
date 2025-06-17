@@ -61,15 +61,16 @@ elif main_tab == "Data Explorer":
             id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
 
             if plot_type == "Line":
-                value_col = st.sidebar.selectbox(
-                    "Select Numeric Column (Y-Axis)",
-                    [col for col in numeric_columns if col not in id_cols],
-                    key="line_y"
-                )
+
                 category_col = st.sidebar.selectbox(
                     "Select Category Column (Legend)",
                     categorical_columns,
                     key="line_legend"
+                )
+                value_col = st.sidebar.selectbox(
+                    "Select Numeric Column (Y-Axis)",
+                    [col for col in numeric_columns if col not in id_cols],
+                    key="line_y"
                 )
 
                 # Aggregate the data
