@@ -86,8 +86,8 @@ elif main_tab == "📈 Chart Visualization":
             )
             fig.update_layout(
                 showlegend=show_legend,
-                    legend=dict(
-                    orientation="v",      # vertical layout
+                legend=dict(
+                    orientation="h",      # vertical layout
                     yanchor="top",
                     y=1,
                     xanchor="left",
