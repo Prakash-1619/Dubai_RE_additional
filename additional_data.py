@@ -48,7 +48,7 @@ elif main_tab == "Data Explorer":
         numeric_columns = df.select_dtypes(include=['number']).columns.tolist()
 
         # Chart type selector in sidebar
-        plot_type = st.sidebar.selectbox("Select Plot Type", ["Line", "Bar"], key="plot_type")
+        
 
         # Legend toggle (applies to both Line and Bar)
         show_legend = st.checkbox("Show Legend", value=True)
@@ -57,6 +57,7 @@ elif main_tab == "Data Explorer":
         if "year" not in df.columns:
             st.error("❌ 'year' column not found in the dataset.")
         else:
+            plot_type = st.sidebar.selectbox("Select Plot Type", ["Line", "Bar"], key="plot_type")
             id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
 
             if plot_type == "Line":
