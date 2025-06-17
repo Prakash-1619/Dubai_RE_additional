@@ -127,10 +127,10 @@ elif main_tab == "📈 Chart Visualization":
                 title=f"{value_col} by {category_col}",
                 hover_name=category_col,
                 hover_data={
+                "total_value": True,
                 value_col: True,
-                "year": True,
-                "total_value": True  # this shows total in hover tooltip
-                }
+                "year": True
+                   }
         )
 
 
@@ -140,7 +140,7 @@ elif main_tab == "📈 Chart Visualization":
                 showlegend=show_legend,
                     legend=dict(
                         orientation="v",
-                        yanchor="bottom",
+                        yanchor="top",
                         y=0,
                         xanchor="left",
                         x=1.02
