@@ -90,7 +90,7 @@ elif main_tab == "📈 Chart Visualization":
                     orientation="v",      # vertical layout
                     yanchor="top",
                     y=0,
-                    xanchor="right",
+                    xanchor="left",
                     x=1.1                # position legend to the right of plot
                 )
                 )
@@ -129,7 +129,7 @@ elif main_tab == "📈 Chart Visualization":
             showlegend=show_legend,
             legend=dict(
                 orientation="v",
-                yanchor="bottom",
+                yanchor="top",
                 y=0,
                 xanchor="right",
                 x=1.1
