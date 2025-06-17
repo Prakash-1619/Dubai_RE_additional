@@ -26,19 +26,21 @@ if main_tab == "Data Inventory":
 # ============== CHARTS SECTION =================
 elif main_tab == "Data Explorer":
     sheet = st.selectbox("Select Data file", sheet_names_main, key="chart_sheet")
-    tab1, tab2, tab3 = st.tabs([ "Summary","Table","Charts"])
+    tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
+
     with tab2:
         sheet = st.selectbox("Select Data file", sheet_names_main, key="preview_data")
         df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
-        #st.subheader(f"🔍 Preview: {sheet}")
+        # st.subheader(f"🔍 Preview: {sheet}")
         st.dataframe(df2, use_container_width=True)
+
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
         sheet_names_summary = xls_summary.sheet_names
         if sheet in sheet_names_summary:
-                df1 = pd.read_excel(summary_path, sheet_name=sheet)
-                #st.subheader(f"📄 Data Summary: {sheet}")
-                st.dataframe(df1, use_container_width=True)
+            df1 = pd.read_excel(summary_path, sheet_name=sheet)
+            # st.subheader(f"📄 Data Summary: {sheet}")
+            st.dataframe(df1, use_container_width=True)
 
     with tab3:
         df = pd.read_excel(excel_file_path, sheet_name=sheet)
@@ -63,7 +65,7 @@ elif main_tab == "Data Explorer":
                     "Select Numeric Column (Y-Axis)",
                     [col for col in numeric_columns if col not in id_cols],
                     key="line_y"
-            )
+                )
                 category_col = st.sidebar.selectbox(
                     "Select Category Column (Legend)",
                     categorical_columns,
@@ -74,41 +76,30 @@ elif main_tab == "Data Explorer":
                 df_grouped = df.groupby(['year', category_col])[value_col].mean().reset_index()
 
                 fig = px.line(
-                df_grouped.dropna(subset=["year", value_col, category_col]),
-                x="year",
-                y=value_col,
-                color=category_col,
-                markers=True,
-                title=f"{value_col} over Years by {category_col}"
+                    df_grouped.dropna(subset=["year", value_col, category_col]),
+                    x="year",
+                    y=value_col,
+                    color=category_col,
+                    markers=True,
+                    title=f"{value_col} over Years by {category_col}"
                 )
-                #fig.update_layout(
-                #showlegend=show_legend,
-                #legend=dict(
-                    #orientation="v",      # vertical layout
-                    #yanchor="bottom",
-                    #y=0,
-                    #xanchor="left",
-                    #x=1.1                # position legend to the right of plot
-                    #)
-                    #)
-
-            
 
             else:  # Bar chart
                 df["year"] = df["year"].astype(str)
 
                 category_col = st.sidebar.selectbox(
-                "Select Category Column (X-Axis)",
-                categorical_columns,
-                key="bar_x"
+                    "Select Category Column (X-Axis)",
+                    categorical_columns,
+                    key="bar_x"
                 )
 
                 value_col = st.sidebar.selectbox(
-                "Select Numeric Column (Y-Axis)",
-                [col for col in numeric_columns if col not in id_cols],
-                key="bar_y"
+                    "Select Numeric Column (Y-Axis)",
+                    [col for col in numeric_columns if col not in id_cols],
+                    key="bar_y"
                 )
-            # Step 1: Calculate total value per category
+
+                # Step 1: Calculate total value per category
                 total_df = df.groupby(category_col)[value_col].sum().reset_index()
                 total_df.rename(columns={value_col: "total_value"}, inplace=True)
 
@@ -117,18 +108,18 @@ elif main_tab == "Data Explorer":
 
                 # Step 3: Create the bar plot with enhanced hover
                 fig = px.bar(
-                df.dropna(subset=["year", value_col, category_col]),
-                x=category_col,
-                y=value_col,
-                #color='year',
-                title=f"{value_col} by {category_col}",
-                hover_name=category_col,
-                hover_data={
-                "total_value": True,
-                value_col: True,
-                "year": True
-                   }
-            )
+                    df.dropna(subset=["year", value_col, category_col]),
+                    x=category_col,
+                    y=value_col,
+                    # color='year',
+                    title=f"{value_col} by {category_col}",
+                    hover_name=category_col,
+                    hover_data={
+                        "total_value": True,
+                        value_col: True,
+                        "year": True
+                    }
+                )
 
 
 
