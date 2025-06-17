@@ -84,16 +84,16 @@ elif main_tab == "📈 Chart Visualization":
                 markers=True,
                 title=f"{value_col} over Years by {category_col}"
             )
-            fig.update_layout(
-                showlegend=show_legend,
-                legend=dict(
-                    orientation="v",      # vertical layout
-                    yanchor="bottom",
-                    y=0,
-                    xanchor="left",
-                    x=1.1                # position legend to the right of plot
-                )
-                )
+            #fig.update_layout(
+                #showlegend=show_legend,
+                #legend=dict(
+                    #orientation="v",      # vertical layout
+                    #yanchor="bottom",
+                    #y=0,
+                    #xanchor="left",
+                    #x=1.1                # position legend to the right of plot
+                #)
+                #)
 
             
 
@@ -125,13 +125,13 @@ elif main_tab == "📈 Chart Visualization":
             )
 
         # Apply common layout settings
-                fig.update_layout(
-                    showlegend=show_legend,
+        fig.update_layout(
+                showlegend=show_legend,
                     legend=dict(
                         orientation="v",
                         yanchor="bottom",
                         y=0,
-                        xanchor="right",
+                        xanchor="left",
                         x=1.1
             )
         )
