@@ -111,19 +111,29 @@ elif main_tab == "📈 Chart Visualization":
                 [col for col in numeric_columns if col not in id_cols],
                 key="bar_y"
             )
+            # Step 1: Calculate total value per category
+            total_df = df.groupby(category_col)[value_col].sum().reset_index()
+            total_df.rename(columns={value_col: "total_value"}, inplace=True)
 
+            # Step 2: Merge total back to the main dataframe
+            df = df.merge(total_df, on=category_col, how='left')
+
+            # Step 3: Create the bar plot with enhanced hover
             fig = px.bar(
                 df.dropna(subset=["year", value_col, category_col]),
                 x=category_col,
                 y=value_col,
-                color = 'year',
+                color='year',
                 title=f"{value_col} by {category_col}",
                 hover_name=category_col,
                 hover_data={
-                    value_col: True,
-                    "year": True
+                value_col: True,
+                "year": True,
+                "total_value": True  # this shows total in hover tooltip
                 }
-            )
+        )
+
+
 
         # Apply common layout settings
         fig.update_layout(
