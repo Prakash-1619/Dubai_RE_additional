@@ -36,10 +36,10 @@ elif main_tab == "Data Explorer":
     with tab1:
         xls_summary = pd.ExcelFile(summary_path)
         sheet_names_summary = xls_summary.sheet_names
-        sheet = st.selectbox("Select Summary file", sheet_names_summary, key="summary_data")
-        df = pd.read_excel(summary_path, sheet_name=sheet)
-        #st.subheader(f"📄 Data Summary: {sheet}")
-        st.dataframe(df, use_container_width=True)
+        if sheet in sheet_names_summary:
+                df = pd.read_excel(summary_path, sheet_name=sheet)
+                #st.subheader(f"📄 Data Summary: {sheet}")
+                st.dataframe(df, use_container_width=True)
 
     with tab3:
         # Identify column types
