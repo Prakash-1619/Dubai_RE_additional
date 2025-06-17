@@ -119,7 +119,7 @@ elif main_tab == "📈 Chart Visualization":
                     y=1.1,
                     xanchor="left",
                     x=0
-                )
+                ))
 
 
 
