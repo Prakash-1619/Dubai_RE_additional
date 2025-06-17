@@ -97,7 +97,7 @@ elif main_tab == "📈 Chart Visualization":
                 key="bar_y"
             )
 
-
+            show_legend = st.checkbox("Show Legend", value=True)
             fig = px.bar(
                     df.dropna(subset=["year", value_col, category_col]),
                     x=category_col,
@@ -110,7 +110,7 @@ elif main_tab == "📈 Chart Visualization":
                 }
             )
 
-# Update layout: legend style + toggle buttons
+            # Update layout: legend style + toggle buttons
             fig.update_layout(
                 barmode='overlay',
                 legend=dict(
@@ -119,30 +119,7 @@ elif main_tab == "📈 Chart Visualization":
                     y=1.1,
                     xanchor="left",
                     x=0
-                ),
-                margin=dict(t=120),
-                width=800,  # Adjust width to better fit content
-                updatemenus=[
-                    {
-                        "type": "buttons",
-                        "direction": "right",
-                        "x": 1.0,
-                        "y": 1.2,
-                        "buttons": [
-                                {
-                                "label": "Show Legend",
-                                "method": "relayout",
-                                "args": [{"showlegend": True}]
-                            },
-                            {
-                                "label": "Hide Legend",
-                                "method": "relayout",
-                                "args": [{"showlegend": False}]
-                            }
-                        ]
-                    }
-                ]
-            )
+                )
 
 
 
