@@ -105,10 +105,12 @@ elif main_tab == "📈 Chart Visualization":
             )
             fig.update_layout(barmode='overlay', legend=dict(
                             orientation="h",
+                            orientation="v"
                             yanchor="bottom",
-                            y=1.02,
+                            y=1.1,
                             xanchor="left",
-                            x=0
+                            yanchor="bottom"
+                            x=
             ))
 
 
