@@ -140,7 +140,6 @@ elif main_tab == "📈 Chart Visualization":
                 showlegend=show_legend,
                     legend=dict(
                         orientation="v",
-                        yanchor="top",
                         y=0,
                         xanchor="left",
                         x=1.02
