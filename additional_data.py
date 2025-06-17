@@ -111,7 +111,7 @@ elif main_tab == "📈 Chart Visualization":
                             y=1.1,
                             xanchor="left",
                             x=0),margin=dict(t=1000),  
-                            width=800,  )
+                            width=100,  )
 
 
 
