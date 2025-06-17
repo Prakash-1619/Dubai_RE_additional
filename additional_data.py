@@ -37,9 +37,9 @@ elif main_tab == "Data Explorer":
         xls_summary = pd.ExcelFile(summary_path)
         sheet_names_summary = xls_summary.sheet_names
         if sheet in sheet_names_summary:
-                df = pd.read_excel(summary_path, sheet_name=sheet)
+                df1 = pd.read_excel(summary_path, sheet_name=sheet)
                 #st.subheader(f"📄 Data Summary: {sheet}")
-                st.dataframe(df, use_container_width=True)
+                st.dataframe(df1, use_container_width=True)
 
     with tab3:
         # Identify column types
