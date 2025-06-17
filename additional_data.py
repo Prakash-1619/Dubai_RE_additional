@@ -103,13 +103,14 @@ elif main_tab == "📈 Chart Visualization":
                 y=value_col,
                 title=f"{value_col} by {category_col}"
             )
-            fig.update_layout(barmode='overlay',legend=dict(
-                            orientation="v",
-                            y=1,
-                            yanchor='top',
-                            x=1.05,
-                            xanchor='left'
-                            ))
+            fig.update_layout(barmode='overlay', legend=dict(
+                            orientation="h",
+                            yanchor="bottom",
+                            y=1.02,
+                            xanchor="left",
+                            x=0
+            ))
+
 
 
         st.plotly_chart(fig, use_container_width=True)
