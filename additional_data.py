@@ -84,6 +84,18 @@ elif main_tab == "📈 Chart Visualization":
                 markers=True,
                 title=f"{value_col} over Years by {category_col}"
             )
+            fig.update_layout(
+                showlegend=show_legend,
+                    legend=dict(
+                    orientation="v",      # vertical layout
+                    yanchor="top",
+                    y=1,
+                    xanchor="left",
+                    x=1.05                # position legend to the right of plot
+                )
+                )
+
+            
 
         else:  # Bar chart
             df["year"] = df["year"].astype(str)
