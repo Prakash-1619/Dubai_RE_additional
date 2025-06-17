@@ -57,18 +57,18 @@ elif main_tab == "Data Explorer":
         if "year" not in df.columns:
             st.error("❌ 'year' column not found in the dataset.")
         else:
-            plot_type = st.sidebar.selectbox("Select Plot Type", ["Line", "Bar"], key="plot_type")
+            plot_type = st.sidebar.selectbox("Select Plot Type", ["Time Series", "Distribution"], key="plot_type")
             id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
 
-            if plot_type == "Line":
+            if plot_type == "Time Series":
 
                 category_col = st.sidebar.selectbox(
-                    "Select Category Column (Legend)",
+                    "Select Dimensions (Legend)",
                     categorical_columns,
                     key="line_legend"
                 )
                 value_col = st.sidebar.selectbox(
-                    "Select Numeric Column (Y-Axis)",
+                    "Select Metrics (Y-Axis)",
                     [col for col in numeric_columns if col not in id_cols],
                     key="line_y"
                 )
@@ -89,13 +89,13 @@ elif main_tab == "Data Explorer":
                 df["year"] = df["year"].astype(str)
 
                 category_col = st.sidebar.selectbox(
-                    "Select Category Column (X-Axis)",
+                    "Select Dimension (X-Axis)",
                     categorical_columns,
                     key="bar_x"
                 )
 
                 value_col = st.sidebar.selectbox(
-                    "Select Numeric Column (Y-Axis)",
+                    "Select Metrics (Y-Axis)",
                     [col for col in numeric_columns if col not in id_cols],
                     key="bar_y"
                 )
