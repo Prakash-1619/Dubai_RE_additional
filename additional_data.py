@@ -136,7 +136,7 @@ elif main_tab == "📈 Chart Visualization":
 
 
         # Apply common layout settings
-        fig.update_layout( xaxis=dict(tickangle=60),
+        fig.update_layout( xaxis=dict(tickangle=45),
                     showlegend=show_legend,
                     legend=dict(
                         orientation="v",
