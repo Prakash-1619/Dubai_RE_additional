@@ -97,21 +97,54 @@ elif main_tab == "📈 Chart Visualization":
                 key="bar_y"
             )
 
+
             fig = px.bar(
-                df.dropna(subset=["year", value_col, category_col]),
-                x=category_col,
-                y=value_col,
-                title=f"{value_col} by {category_col}",
-                hover_name=category_col,
-                hover_data={value_col: True, 
-                            "year": True} )
-            fig.update_layout(barmode='overlay', legend=dict(
-                            orientation="h",
-                            yanchor="bottom",
-                            y=1.1,
-                            xanchor="left",
-                            x=0),margin=dict(t=1000),  
-                            width=100,  )
+                    df.dropna(subset=["year", value_col, category_col]),
+                    x=category_col,
+                    y=value_col,
+                    title=f"{value_col} by {category_col}",
+                    hover_name=category_col,
+                    hover_data={
+                    value_col: True, 
+                    "year": True
+                }
+            )
+
+# Update layout: legend style + toggle buttons
+            fig.update_layout(
+                barmode='overlay',
+                legend=dict(
+                      orientation="h",
+                    yanchor="bottom",
+                    y=1.1,
+                    xanchor="left",
+                    x=0
+                ),
+                margin=dict(t=120),
+                width=800,  # Adjust width to better fit content
+                updatemenus=[
+                    {
+                        "type": "buttons",
+                        "direction": "right",
+                        "x": 1.0,
+                        "y": 1.2,
+                        "buttons": [
+                                {
+                                "label": "Show Legend",
+                                "method": "relayout",
+                                "args": [{"showlegend": True}]
+                            },
+                            {
+                                "label": "Hide Legend",
+                                "method": "relayout",
+                                "args": [{"showlegend": False}]
+                            }
+                        ]
+                    }
+                ]
+            )
+
+
 
 
 
