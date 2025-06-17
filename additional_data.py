@@ -131,8 +131,8 @@ elif main_tab == "📈 Chart Visualization":
                         orientation="v",
                         yanchor="bottom",
                         y=0,
-                        xanchor="left",
-                        x=1.1
+                        xanchor="right",
+                        x=1.02
             )
         )
 
