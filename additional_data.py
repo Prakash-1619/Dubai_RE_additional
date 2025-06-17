@@ -132,7 +132,7 @@ elif main_tab == "📈 Chart Visualization":
                 yanchor="bottom",
                 y=1.1,
                 xanchor="left",
-                x=0
+                x=1
             )
         )
 
