@@ -103,7 +103,14 @@ elif main_tab == "📈 Chart Visualization":
                 y=value_col,
                 title=f"{value_col} by {category_col}"
             )
-            fig.update_layout(barmode='overlay')  # Show bars overlaid (not stacked)
+            fig.update_layout(barmode='overlay',legend=dict(
+                            orientation="v",
+                            y=1,
+                            yanchor='top',
+                            x=1.05,
+                            xanchor='left'
+                            ))
+
 
         st.plotly_chart(fig, use_container_width=True)
 
