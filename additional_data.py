@@ -52,11 +52,14 @@ elif main_tab == "📈 Chart Visualization":
     # Chart type selector in sidebar
     plot_type = st.sidebar.selectbox("Select Plot Type", ["Line", "Bar"], key="plot_type")
 
+    # Legend toggle (applies to both Line and Bar)
+    show_legend = st.checkbox("Show Legend", value=True)
+
     # Ensure 'year' column is present
     if "year" not in df.columns:
         st.error("❌ 'year' column not found in the dataset.")
     else:
-        id_cols = ['id', 'i_d', 'year','quantityar','quantityen']
+        id_cols = ['id', 'i_d', 'year', 'quantityar', 'quantityen']
 
         if plot_type == "Line":
             value_col = st.sidebar.selectbox(
@@ -90,40 +93,38 @@ elif main_tab == "📈 Chart Visualization":
                 categorical_columns,
                 key="bar_x"
             )
-            
+
             value_col = st.sidebar.selectbox(
                 "Select Numeric Column (Y-Axis)",
                 [col for col in numeric_columns if col not in id_cols],
                 key="bar_y"
             )
 
-            show_legend = st.checkbox("Show Legend", value=True)
             fig = px.bar(
-                    df.dropna(subset=["year", value_col, category_col]),
-                    x=category_col,
-                    y=value_col,
-                    title=f"{value_col} by {category_col}",
-                    hover_name=category_col,
-                    hover_data={
-                    value_col: True, 
+                df.dropna(subset=["year", value_col, category_col]),
+                x=category_col,
+                y=value_col,
+                title=f"{value_col} by {category_col}",
+                hover_name=category_col,
+                hover_data={
+                    value_col: True,
                     "year": True
                 }
             )
 
-            # Update layout: legend style + toggle buttons
-            fig.update_layout(
-                barmode='overlay',
-                legend=dict(
-                      orientation="h",
-                    yanchor="bottom",
-                    y=1.1,
-                    xanchor="left",
-                    x=0
-                ))
-
-
-
-
+        # Apply common layout settings
+        fig.update_layout(
+            showlegend=show_legend,
+            legend=dict(
+                orientation="h",
+                yanchor="bottom",
+                y=1.1,
+                xanchor="left",
+                x=0
+            )
+        )
 
         st.plotly_chart(fig, use_container_width=True)
+
+
 
