@@ -102,10 +102,11 @@ elif main_tab == "📈 Chart Visualization":
                 x=category_col,
                 y=value_col,
                 title=f"{value_col} by {category_col}"
-            )
+                hover_name=category_col,
+                hover_data={value_col: True, 
+                            "year": True} )
             fig.update_layout(barmode='overlay', legend=dict(
                             orientation="h",
-                            orientation="v",
                             yanchor="bottom",
                             y=1.1,
                             xanchor="left",
