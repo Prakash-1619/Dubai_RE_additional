@@ -29,7 +29,6 @@ elif main_tab == "Data Explorer":
     tab1, tab2, tab3 = st.tabs(["Summary", "Table", "Charts"])
 
     with tab2:
-        sheet = st.selectbox("Select Data file", sheet_names_main, key="preview_data")
         df2 = pd.read_excel(excel_file_path, sheet_name=sheet)
         # st.subheader(f"🔍 Preview: {sheet}")
         st.dataframe(df2, use_container_width=True)
