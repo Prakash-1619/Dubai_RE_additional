@@ -101,7 +101,7 @@ elif main_tab == "📈 Chart Visualization":
                 df.dropna(subset=["year", value_col, category_col]),
                 x=category_col,
                 y=value_col,
-                title=f"{value_col} by {category_col}"
+                title=f"{value_col} by {category_col}",
                 hover_name=category_col,
                 hover_data={value_col: True, 
                             "year": True} )
