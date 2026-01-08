@@ -94,14 +94,14 @@ def load_columns(model_key):
     for f in os.listdir(COL_DIR):
         if f.lower() == f"trained_columns_{model_key}.pkl".lower():
             with open(os.path.join(COL_DIR, f), "rb") as file:
-                return pickle.load(file, encoding="latin1")
+                return pickle.load(file)  #, encoding="latin1")
     raise FileNotFoundError(f"trained_columns_{model_key}.pkl not found")
 
 def load_model(model_key):
     for f in os.listdir(MODEL_DIR):
         if f.lower() == f"rf_model_{model_key}.pkl".lower():
             with open(os.path.join(MODEL_DIR, f), "rb") as file:
-                return pickle.load(file, encoding="latin1")
+                return pickle.load(file) #, encoding="latin1")
     raise FileNotFoundError(f"rf_model_{model_key}.pkl not found")
 
 # ============================================================
