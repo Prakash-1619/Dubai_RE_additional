@@ -25,8 +25,8 @@ MODEL_DIR = os.path.join(BASE_DIR, "Models")
 COL_DIR = MODEL_DIR
 
 INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
-FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df_st.csv")
-HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df_st.csv")
+FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df.csv")
+HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df.csv")
 
 # ============================================================
 # LOAD INPUT FEATURE CSV
