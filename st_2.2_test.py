@@ -19,20 +19,9 @@ st.title("🏙️ Dubai Property Price Prediction Dashboard")
 # ============================================================
 # BASE DIRECTORY
 # ============================================================
-import os
-import pickle
-import pandas as pd
-
-# Base directory (repo root)
 BASE_DIR = os.getcwd()  # Dubai_RE_additional
-
-# Models folder
 MODEL_DIR = os.path.join(BASE_DIR, "Models")
-
-# Trained columns folder (inside Models)
 COL_DIR = MODEL_DIR  # trained_columns_*.pkl are inside Models
-
-# Input CSV
 INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
 
 # ============================================================
@@ -59,24 +48,24 @@ def get_area_row(area):
 # LOADERS
 # ============================================================
 def load_columns(model_key):
-    """
-    Load trained_columns_*.pkl from Models folder
-    """
+    """Load trained_columns_*.pkl from Models folder"""
     path = os.path.join(COL_DIR, f"trained_columns_{model_key}.pkl")
     if not os.path.exists(path):
         raise FileNotFoundError(f"{path} not found")
     with open(path, "rb") as file:
-        return pickle.load(file)
+        return pickle.load(file, encoding="latin1")  # fix for cross-platform pickles
 
 def load_model(model_key):
-    """
-    Load rf_model_*.pkl from Models folder
-    """
+    """Load rf_model_*.pkl from Models folder"""
     path = os.path.join(MODEL_DIR, f"rf_model_{model_key}.pkl")
     if not os.path.exists(path):
         raise FileNotFoundError(f"{path} not found")
-    with open(path, "rb") as file:
-        return pickle.load(file)
+    try:
+        with open(path, "rb") as file:
+            return pickle.load(file, encoding="latin1")  # fix for ModuleNotFoundError
+    except ModuleNotFoundError as e:
+        st.error(f"ModuleNotFoundError while loading {model_key}: {e}")
+        raise
 
 # ============================================================
 # READ FORECAST & HISTORIC CSVs (for prediction)
@@ -84,11 +73,8 @@ def load_model(model_key):
 FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df_st.csv")
 HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df_st.csv")
 
-
-
-
 # ============================================================
-# DIRECT & PROXY CONFIG (UNCHANGED)
+# DIRECT & PROXY CONFIG
 # ============================================================
 DIRECT_MODEL_AREAS = {
     "Al Barsha South Fourth", "Business Bay", "Al Merkadh", "Burj Khalifa",
@@ -124,10 +110,8 @@ PROXY_MAPPING = {
 
 ALL_AREAS = sorted(feature_df["area_name_en"].unique())
 
-
-
 # ============================================================
-# PREDICTION FUNCTION (UNCHANGED)
+# PREDICTION FUNCTION
 # ============================================================
 def predict_with_proxy(input_data, forecast_df, historic_df):
 
@@ -187,7 +171,7 @@ def predict_with_proxy(input_data, forecast_df, historic_df):
     return final_df.sort_values("month")
 
 # ============================================================
-# SIDEBAR INPUTS (🔥 CSV-DRIVEN 🔥)
+# SIDEBAR INPUTS
 # ============================================================
 st.sidebar.header("📌 Property Inputs")
 
@@ -242,7 +226,6 @@ if st.sidebar.button("🔮 Predict Price"):
     }
 
     result = predict_with_proxy(input_data, forecast_df, historic_df)
-
 
     st.subheader("📈 Price Trend")
     fig = px.line(
