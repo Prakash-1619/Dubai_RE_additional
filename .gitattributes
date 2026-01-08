@@ -2,3 +2,5 @@
 *.joblib filter=lfs diff=lfs merge=lfs -text
 *.csv filter=lfs diff=lfs merge=lfs -text
 *.zip filter=lfs diff=lfs merge=lfs -text
+historic_df_st.csv filter=lfs diff=lfs merge=lfs -text
+forecast_df_st.csv filter=lfs diff=lfs merge=lfs -text
