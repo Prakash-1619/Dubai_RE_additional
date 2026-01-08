@@ -19,16 +19,20 @@ st.title("🏙️ Dubai Property Price Prediction Dashboard")
 # ============================================================
 # BASE DIRECTORY
 # ============================================================
-BASE_DIR = os.path.join(
-    os.path.expanduser("~"),
-    "Downloads",
-    "FLIPOSE_DATA",
-    "V_2.2",
-    "Models_predictions"
-)
+import os
+import pickle
+import pandas as pd
 
+# Base directory (repo root)
+BASE_DIR = os.getcwd()  # Dubai_RE_additional
+
+# Models folder
 MODEL_DIR = os.path.join(BASE_DIR, "Models")
-COL_DIR = os.path.join(BASE_DIR, "Trained Columns")
+
+# Trained columns folder (inside Models)
+COL_DIR = MODEL_DIR  # trained_columns_*.pkl are inside Models
+
+# Input CSV
 INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
 
 # ============================================================
@@ -52,6 +56,38 @@ def get_area_row(area):
     return row.iloc[0] if not row.empty else None
 
 # ============================================================
+# LOADERS
+# ============================================================
+def load_columns(model_key):
+    """
+    Load trained_columns_*.pkl from Models folder
+    """
+    path = os.path.join(COL_DIR, f"trained_columns_{model_key}.pkl")
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"{path} not found")
+    with open(path, "rb") as file:
+        return pickle.load(file)
+
+def load_model(model_key):
+    """
+    Load rf_model_*.pkl from Models folder
+    """
+    path = os.path.join(MODEL_DIR, f"rf_model_{model_key}.pkl")
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"{path} not found")
+    with open(path, "rb") as file:
+        return pickle.load(file)
+
+# ============================================================
+# READ FORECAST & HISTORIC CSVs (for prediction)
+# ============================================================
+FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df_st.csv")
+HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df_st.csv")
+
+
+
+
+# ============================================================
 # DIRECT & PROXY CONFIG (UNCHANGED)
 # ============================================================
 DIRECT_MODEL_AREAS = {
@@ -65,20 +101,20 @@ DIRECT_MODEL_AREAS = {
 }
 
 PROXY_MAPPING = {
-    "Al Barsha First": "proxy1",
-    "Al Hebiah Second": "proxy1",
-    "Al Hebiah Sixth": "proxy1",
-    "Al Hebiah Third": "proxy1",
-    "Madinat Hind 4": "proxy1",
-    "Wadi Al Safa 3": "proxy1",
-    "Wadi Al Safa 4": "proxy1",
-    "Wadi Al Safa 7": "proxy1",
-    "Bukadra": "proxy2",
-    "Ras Al Khor Industrial First": "proxy2",
-    "Jumeirah First": "proxy2",
-    "Palm Deira": "proxy2",
-    "Al Thanyah Third": "proxy3",
-    "Jabal Ali Industrial Second": "proxy3",
+    "Al Barsha First": "Proxy1",
+    "Al Hebiah Second": "Proxy1",
+    "Al Hebiah Sixth": "Proxy1",
+    "Al Hebiah Third": "Proxy1",
+    "Madinat Hind 4": "Proxy1",
+    "Wadi Al Safa 3": "Proxy1",
+    "Wadi Al Safa 4": "Proxy1",
+    "Wadi Al Safa 7": "Proxy1",
+    "Bukadra": "Proxy2",
+    "Ras Al Khor Industrial First": "Proxy2",
+    "Jumeirah First": "Proxy2",
+    "Palm Deira": "Proxy2",
+    "Al Thanyah Third": "Proxy3",
+    "Jabal Ali Industrial Second": "Proxy3",
     "Al Kifaf": "G1",
     "Warsan Fourth": "G3",
     "Jabal Ali": "G3",
@@ -88,22 +124,7 @@ PROXY_MAPPING = {
 
 ALL_AREAS = sorted(feature_df["area_name_en"].unique())
 
-# ============================================================
-# LOADERS
-# ============================================================
-def load_columns(model_key):
-    for f in os.listdir(COL_DIR):
-        if f.lower() == f"trained_columns_{model_key}.pkl".lower():
-            with open(os.path.join(COL_DIR, f), "rb") as file:
-                return pickle.load(file)
-    raise FileNotFoundError(f"trained_columns_{model_key}.pkl not found")
 
-def load_model(model_key):
-    for f in os.listdir(MODEL_DIR):
-        if f.lower() == f"rf_model_{model_key}.pkl".lower():
-            with open(os.path.join(MODEL_DIR, f), "rb") as file:
-                return pickle.load(file)
-    raise FileNotFoundError(f"rf_model_{model_key}.pkl not found")
 
 # ============================================================
 # PREDICTION FUNCTION (UNCHANGED)
@@ -201,8 +222,8 @@ metro = binary_checkbox("Near Metro", row["metro"])
 # ============================================================
 if st.sidebar.button("🔮 Predict Price"):
 
-    forecast_df = pd.read_csv("forecast_df.csv")
-    historic_df = pd.read_csv("historic_df.csv")
+    forecast_df = pd.read_csv(FORECAST_CSV)
+    historic_df = pd.read_csv(HISTORIC_CSV)
 
     input_data = {
         "area_name": area,
@@ -221,6 +242,7 @@ if st.sidebar.button("🔮 Predict Price"):
     }
 
     result = predict_with_proxy(input_data, forecast_df, historic_df)
+
 
     st.subheader("📈 Price Trend")
     fig = px.line(
