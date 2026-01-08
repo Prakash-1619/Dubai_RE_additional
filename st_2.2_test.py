@@ -22,11 +22,11 @@ st.title("🏙️ Dubai Property Price Prediction Dashboard")
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 MODEL_DIR = os.path.join(BASE_DIR, "Models")
-COL_DIR = os.path.join(BASE_DIR, "Trained Columns")
+COL_DIR = MODEL_DIR
 
 INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
-FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df.csv")
-HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df.csv")
+FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df_st.csv")
+HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df_st.csv")
 
 # ============================================================
 # LOAD INPUT FEATURE CSV
