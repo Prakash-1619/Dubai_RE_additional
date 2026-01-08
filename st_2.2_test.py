@@ -17,7 +17,7 @@ st.set_page_config(
 st.title("🏙️ Dubai Property Price Prediction Dashboard")
 
 # ============================================================
-# BASE DIRECTORY (✅ STREAMLIT SAFE)
+# BASE DIRECTORY
 # ============================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,8 +25,6 @@ MODEL_DIR = os.path.join(BASE_DIR, "Models")
 COL_DIR = MODEL_DIR
 
 INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
-FORECAST_CSV = os.path.join(BASE_DIR, "forecast_df.csv")
-HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df.csv")
 
 # ============================================================
 # LOAD INPUT FEATURE CSV
@@ -34,6 +32,7 @@ HISTORIC_CSV = os.path.join(BASE_DIR, "historic_df.csv")
 feature_df = pd.read_csv(INPUT_CSV)
 
 def parse_list(val):
+    """Safely parse list-like strings from CSV"""
     if pd.isna(val):
         return []
     if isinstance(val, list):
@@ -48,7 +47,7 @@ def get_area_row(area):
     return row.iloc[0] if not row.empty else None
 
 # ============================================================
-# DIRECT & PROXY CONFIG (✅ FIXED CASE)
+# DIRECT & PROXY CONFIG (UNCHANGED)
 # ============================================================
 DIRECT_MODEL_AREAS = {
     "Al Barsha South Fourth", "Business Bay", "Al Merkadh", "Burj Khalifa",
@@ -61,23 +60,20 @@ DIRECT_MODEL_AREAS = {
 }
 
 PROXY_MAPPING = {
-    "Al Barsha First": "Proxy1",
-    "Al Hebiah Second": "Proxy1",
-    "Al Hebiah Sixth": "Proxy1",
-    "Al Hebiah Third": "Proxy1",
-    "Madinat Hind 4": "Proxy1",
-    "Wadi Al Safa 3": "Proxy1",
-    "Wadi Al Safa 4": "Proxy1",
-    "Wadi Al Safa 7": "Proxy1",
-
-    "Bukadra": "Proxy2",
-    "Ras Al Khor Industrial First": "Proxy2",
-    "Jumeirah First": "Proxy2",
-    "Palm Deira": "Proxy2",
-
-    "Al Thanyah Third": "Proxy3",
-    "Jabal Ali Industrial Second": "Proxy3",
-
+    "Al Barsha First": "proxy1",
+    "Al Hebiah Second": "proxy1",
+    "Al Hebiah Sixth": "proxy1",
+    "Al Hebiah Third": "proxy1",
+    "Madinat Hind 4": "proxy1",
+    "Wadi Al Safa 3": "proxy1",
+    "Wadi Al Safa 4": "proxy1",
+    "Wadi Al Safa 7": "proxy1",
+    "Bukadra": "proxy2",
+    "Ras Al Khor Industrial First": "proxy2",
+    "Jumeirah First": "proxy2",
+    "Palm Deira": "proxy2",
+    "Al Thanyah Third": "proxy3",
+    "Jabal Ali Industrial Second": "proxy3",
     "Al Kifaf": "G1",
     "Warsan Fourth": "G3",
     "Jabal Ali": "G3",
@@ -88,20 +84,20 @@ PROXY_MAPPING = {
 ALL_AREAS = sorted(feature_df["area_name_en"].unique())
 
 # ============================================================
-# LOADERS (UNCHANGED LOGIC)
+# LOADERS
 # ============================================================
 def load_columns(model_key):
     for f in os.listdir(COL_DIR):
         if f.lower() == f"trained_columns_{model_key}.pkl".lower():
             with open(os.path.join(COL_DIR, f), "rb") as file:
-                return pickle.load(file)  #, encoding="latin1")
+                return pickle.load(file)
     raise FileNotFoundError(f"trained_columns_{model_key}.pkl not found")
 
 def load_model(model_key):
     for f in os.listdir(MODEL_DIR):
         if f.lower() == f"rf_model_{model_key}.pkl".lower():
             with open(os.path.join(MODEL_DIR, f), "rb") as file:
-                return pickle.load(file) #, encoding="latin1")
+                return pickle.load(file)
     raise FileNotFoundError(f"rf_model_{model_key}.pkl not found")
 
 # ============================================================
@@ -148,6 +144,13 @@ def predict_with_proxy(input_data, forecast_df, historic_df):
     gf = forecast_df[forecast_df["area"] == model_key].copy()
     hist = historic_df[historic_df["area"] == model_key].copy()
 
+    if gf.empty and hist.empty:
+        return pd.DataFrame({
+            "month": ["Current"],
+            "median_price": [predicted_price],
+            "area": [area]
+        })
+
     gf["median_price"] = predicted_price * gf["growth_factor"]
     hist.loc[hist.index[-1], "median_price"] = predicted_price
 
@@ -158,7 +161,7 @@ def predict_with_proxy(input_data, forecast_df, historic_df):
     return final_df.sort_values("month")
 
 # ============================================================
-# SIDEBAR INPUTS
+# SIDEBAR INPUTS (🔥 CSV-DRIVEN 🔥)
 # ============================================================
 st.sidebar.header("📌 Property Inputs")
 
@@ -193,8 +196,8 @@ metro = binary_checkbox("Near Metro", row["metro"])
 # ============================================================
 if st.sidebar.button("🔮 Predict Price"):
 
-    forecast_df = pd.read_csv(FORECAST_CSV)
-    historic_df = pd.read_csv(HISTORIC_CSV)
+    forecast_df = pd.read_csv("forecast_df.csv")
+    historic_df = pd.read_csv("historic_df.csv")
 
     input_data = {
         "area_name": area,
