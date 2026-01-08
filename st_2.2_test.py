@@ -19,12 +19,12 @@ st.title("🏙️ Dubai Property Price Prediction Dashboard")
 # ============================================================
 # BASE DIRECTORY
 # ============================================================
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+#BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-MODEL_DIR = os.path.join(BASE_DIR, "Models")
+MODEL_DIR = os.path.join("Models")
 COL_DIR = MODEL_DIR
 
-INPUT_CSV = os.path.join(BASE_DIR, "V_2.2_inputs.csv")
+INPUT_CSV = os.path.join("V_2.2_inputs.csv")
 
 # ============================================================
 # LOAD INPUT FEATURE CSV
